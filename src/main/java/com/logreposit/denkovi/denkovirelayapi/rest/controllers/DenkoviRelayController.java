@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/relays")
+@RequestMapping("/v1/api/relays")
 @Validated
 public class DenkoviRelayController
 {
