@@ -41,7 +41,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relayStates, HttpStatus.OK);
     }
 
-    @GetMapping("/{relayNumber:([1-9])|(1[0-6])}")
+    @GetMapping("/{relayNumber:[1-9]|1[0-6]}")
     public ResponseEntity<Relay> get(@PathVariable("relayNumber") int relayNumber)
     {
         Relay relay = this.denkoviRelayService.get(relayNumber);
@@ -49,7 +49,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @PostMapping("/{relayNumber:([1-9])|(1[0-6])}/on")
+    @PostMapping("/{relayNumber:[1-9]|1[0-6]}/on")
     public ResponseEntity<Relay> on(@PathVariable("relayNumber") int relayNumber)
     {
         this.denkoviRelayService.set(relayNumber, RelayState.ON);
@@ -59,7 +59,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @PostMapping("/{relayNumber:([1-9])|(1[0-6])}/off")
+    @PostMapping("/{relayNumber:[1-9]|1[0-6]}/off")
     public ResponseEntity<Relay> off(@PathVariable("relayNumber") int relayNumber)
     {
         this.denkoviRelayService.set(relayNumber, RelayState.OFF);
@@ -69,7 +69,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @PostMapping("/{relayNumber:([1-9])|(1[0-6])}/pulse-signal/on-off")
+    @PostMapping("/{relayNumber:[1-9]|1[0-6]}/pulse-signal/on-off")
     public ResponseEntity<Relay> pulseSignalOnOff(@PathVariable("relayNumber") int relayNumber)
     {
         this.denkoviRelayService.set(relayNumber, RelayState.ON);
@@ -80,7 +80,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @PostMapping("/{relayNumber:([1-9])|(1[0-6])}/pulse-signal/off-on")
+    @PostMapping("/{relayNumber:[1-9]|1[0-6]}/pulse-signal/off-on")
     public ResponseEntity<Relay> pulseSignalOffOn(@PathVariable("relayNumber") int relayNumber)
     {
         this.denkoviRelayService.set(relayNumber, RelayState.OFF);
