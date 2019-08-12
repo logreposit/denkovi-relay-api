@@ -4,15 +4,30 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Configuration
 @ConfigurationProperties("denkovi")
 @Getter
 @Setter
+@Validated
 public class ApplicationConfiguration
 {
-    private String comPort = "/dev/ttyUSB0";
-    private long comPortReadTimeout = 2500;
-    private long debugDelay = 1800;
-    private boolean debug = false;
+    @NotBlank
+    private String comPort;
+
+    @NotNull
+    private Long comPortReadTimeout;
+
+    @NotNull
+    private Long debugDelay;
+
+    @NotNull
+    private Boolean debug;
+
+    @NotBlank
+    private String databaseFile;
 }

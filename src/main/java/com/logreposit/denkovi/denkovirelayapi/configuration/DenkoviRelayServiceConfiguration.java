@@ -23,7 +23,7 @@ public class DenkoviRelayServiceConfiguration
     @Bean
     public DenkoviRelayService denkoviRelayService()
     {
-        if (this.applicationConfiguration.isDebug())
+        if (this.applicationConfiguration.getDebug())
         {
             return new MockDenkoviRelayServiceImpl(this.applicationConfiguration.getDebugDelay());
         }
