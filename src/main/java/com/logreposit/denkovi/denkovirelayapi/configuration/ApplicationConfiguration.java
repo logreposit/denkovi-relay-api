@@ -13,4 +13,6 @@ public class ApplicationConfiguration
 {
     private String comPort = "/dev/ttyUSB0";
     private long comPortReadTimeout = 2500;
+    private long debugDelay = 1800;
+    private boolean debug = false;
 }
