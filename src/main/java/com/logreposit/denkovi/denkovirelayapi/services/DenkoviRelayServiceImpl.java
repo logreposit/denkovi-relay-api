@@ -31,7 +31,9 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
 
         for (int i = 0; i < states.length; i++)
         {
-            relayStates.add(new Relay(i + 1, booleanToRelayState(states[i])));
+            int relayNumber = i + 1;
+
+            relayStates.add(new Relay(relayNumber, booleanToRelayState(states[i])));
         }
 
         return relayStates;
