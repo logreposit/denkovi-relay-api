@@ -1,0 +1,4 @@
+FROM maven:3-jdk-12
+
+RUN yum -y update && yum -y install git
+
