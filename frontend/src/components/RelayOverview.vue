@@ -8,10 +8,8 @@
                     <v-card-title primary-title>
                         Relay {{ relay.number }}
                     </v-card-title>
-                    <v-card-subtitle>
-                        <span v-if="relay.name">{{ relay.name }}</span>
-                    </v-card-subtitle>
                     <v-card-text>
+                        <p v-if="relay.name">{{ relay.name }}</p>
                         Relay is
                         <span v-show="relay.state == 'ON'" class="green--text">{{ relay.state }}</span>
                         <span v-show="relay.state == 'OFF'" class="red--text">{{ relay.state }}</span>
