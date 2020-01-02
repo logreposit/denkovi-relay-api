@@ -1,0 +1,24 @@
+{
+  "name": "relay-on",
+  "request": {
+    "urlPattern": "/v1/api/relays/[0-9]+/on",
+    "method": "POST"
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 2500,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Methods" : "*",
+      "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding",
+      "X-Content-Type-Options" : "nosniff",
+      "x-frame-options" : "DENY",
+      "x-xss-protection" : "1; mode=block"
+    },
+    "jsonBody": {
+      "number": 16,
+      "state": "ON"
+    }
+  }
+}
