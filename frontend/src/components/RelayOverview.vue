@@ -5,7 +5,10 @@
         <v-layout wrap>
             <v-flex md3 sm6 xs12 v-for="(relay, index) in relays" :key="index" mb-2>
                 <v-card>
-                    <v-card-title primary-title>Relay {{ relay.number }}</v-card-title>
+                    <v-card-title primary-title>
+                        Relay {{ relay.number }}
+                        <span v-if="relay.name" class="green--text">({{ relay.name }})</span>
+                    </v-card-title>
                     <v-card-text>
                         Relay is
                         <span v-show="relay.state == 'ON'" class="green--text">{{ relay.state }}</span>
