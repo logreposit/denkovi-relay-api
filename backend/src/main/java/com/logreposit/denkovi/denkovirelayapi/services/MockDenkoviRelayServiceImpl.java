@@ -2,6 +2,7 @@ package com.logreposit.denkovi.denkovirelayapi.services;
 
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.Relay;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayState;
+import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayUpdateDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +66,12 @@ public class MockDenkoviRelayServiceImpl implements DenkoviRelayService
                           .filter(r -> r.getNumber() == relayNumber)
                           .findFirst()
                           .orElseThrow(() -> new RuntimeException("relay not found."));
+    }
+
+    @Override
+    public void update(int relayNumber, RelayUpdateDto relayUpdateDto)
+    {
+        return; // TODO DoM
     }
 
     private void delay()

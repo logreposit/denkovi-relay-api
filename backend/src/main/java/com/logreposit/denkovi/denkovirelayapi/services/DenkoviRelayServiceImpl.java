@@ -1,9 +1,14 @@
 package com.logreposit.denkovi.denkovirelayapi.services;
+import java.util.Date;
 
 import com.logreposit.denkovi.denkovirelayapi.communication.serial.Denkovi16ChannelRelayState;
 import com.logreposit.denkovi.denkovirelayapi.communication.serial.DenkoviSerialClient;
+import com.logreposit.denkovi.denkovirelayapi.persistence.objects.RelayData;
+import com.logreposit.denkovi.denkovirelayapi.persistence.repositories.RelayRepository;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.Relay;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayState;
+import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayUpdateDto;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +20,12 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
     private static final Logger logger = LoggerFactory.getLogger(DenkoviRelayServiceImpl.class);
 
     private final DenkoviSerialClient denkoviSerialClient;
+    private final RelayRepository relayRepository;
 
-    public DenkoviRelayServiceImpl(DenkoviSerialClient denkoviSerialClient)
+    public DenkoviRelayServiceImpl(DenkoviSerialClient denkoviSerialClient, RelayRepository relayRepository)
     {
         this.denkoviSerialClient = denkoviSerialClient;
+        this.relayRepository = relayRepository;
     }
 
     @Override
@@ -33,7 +40,7 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
         {
             int relayNumber = i + 1;
 
-            relayStates.add(new Relay(relayNumber, booleanToRelayState(states[i])));
+            relayStates.add(this.buildRelay(relayNumber, booleanToRelayState(states[i])));
         }
 
         return relayStates;
@@ -69,7 +76,25 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
         boolean state = denkovi16ChannelRelayState.get(relayNumber - 1);
         RelayState relayState = booleanToRelayState(state);
 
-        return new Relay(relayNumber, relayState);
+        Relay relay = this.buildRelay(relayNumber, relayState);
+
+        return relay;
+    }
+
+    @Override
+    public void update(int relayNumber, RelayUpdateDto relayUpdateDto)
+    {
+        validateRelayNumber(relayNumber);
+
+        RelayData relayData = new RelayData();
+
+        relayData.setNumber(relayNumber);
+        relayData.setName(relayUpdateDto.getName());
+        relayData.setDescription(relayUpdateDto.getDescription());
+        relayData.setTags(relayUpdateDto.getTags());
+        relayData.setModifiedAt(new Date());
+
+        this.relayRepository.save(relayData);
     }
 
     private static void validateRelayNumber(int relayNumber)
@@ -84,12 +109,7 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
 
     private static boolean relayStateToBoolean(RelayState relayState)
     {
-        if (RelayState.ON.equals(relayState))
-        {
-            return true;
-        }
-
-        return false;
+        return RelayState.ON.equals(relayState);
     }
 
     private static RelayState booleanToRelayState(boolean bool)
@@ -100,5 +120,26 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
         }
 
         return RelayState.OFF;
+    }
+
+    private Relay buildRelay(int relayNumber, RelayState relayState)
+    {
+        Optional<RelayData> relayDataOptional = this.relayRepository.get(relayNumber);
+
+        Relay relay = new Relay();
+
+        relay.setNumber(relayNumber);
+        relay.setState(relayState);
+
+        if (relayDataOptional.isPresent())
+        {
+            RelayData relayData = relayDataOptional.get();
+
+            relay.setName(relayData.getName());
+            relay.setDescription(relayData.getDescription());
+            relay.setTags(relayData.getTags());
+        }
+
+        return relay;
     }
 }

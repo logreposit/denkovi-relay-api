@@ -2,6 +2,7 @@ package com.logreposit.denkovi.denkovirelayapi.rest.controllers;
 
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.Relay;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayState;
+import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayUpdateDto;
 import com.logreposit.denkovi.denkovirelayapi.services.DenkoviRelayService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,17 @@ public class DenkoviRelayController
     @GetMapping("/{relayNumber:[1-9]|1[0-6]}")
     public ResponseEntity<Relay> get(@PathVariable("relayNumber") int relayNumber)
     {
+        Relay relay = this.denkoviRelayService.get(relayNumber);
+
+        return new ResponseEntity<>(relay, HttpStatus.OK);
+    }
+
+    @PutMapping("/{relayNumber:[1-9]|1[0-6]}")
+    public ResponseEntity<Relay> update(@PathVariable("relayNumber") int relayNumber,
+        @RequestBody @Valid RelayUpdateDto relayUpdateDto)
+    {
+        this.denkoviRelayService.update(relayNumber, relayUpdateDto);
+
         Relay relay = this.denkoviRelayService.get(relayNumber);
 
         return new ResponseEntity<>(relay, HttpStatus.OK);
