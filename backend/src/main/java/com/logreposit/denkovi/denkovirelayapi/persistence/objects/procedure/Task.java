@@ -11,7 +11,8 @@ import lombok.Data;
     @JsonSubTypes.Type(value = RelayOffTask.class, name = "RELAY_OFF"),
     @JsonSubTypes.Type(value = SleepTask.class, name = "SLEEP"),
 })
-public abstract class Task {
+//public abstract class Task {
+public class Task {
   private Action action;
 
   public Task() {

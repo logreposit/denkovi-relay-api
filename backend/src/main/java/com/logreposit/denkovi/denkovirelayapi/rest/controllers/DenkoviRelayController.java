@@ -24,7 +24,7 @@ public class DenkoviRelayController
         this.denkoviRelayService = denkoviRelayService;
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @GetMapping
     public ResponseEntity<List<Relay>> getAll()
     {
@@ -33,7 +33,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relays, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping
     public ResponseEntity<List<Relay>> setAll(@RequestBody @Valid List<Relay> relays)
     {
@@ -44,7 +44,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relayStates, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @GetMapping("/{relayNumber:[1-9]|1[0-6]}")
     public ResponseEntity<Relay> get(@PathVariable("relayNumber") int relayNumber)
     {
@@ -64,7 +64,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping("/{relayNumber:[1-9]|1[0-6]}/on")
     public ResponseEntity<Relay> on(@PathVariable("relayNumber") int relayNumber)
     {
@@ -75,7 +75,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping("/{relayNumber:[1-9]|1[0-6]}/off")
     public ResponseEntity<Relay> off(@PathVariable("relayNumber") int relayNumber)
     {
@@ -86,7 +86,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping("/{relayNumber:[1-9]|1[0-6]}/pulse-signal/on-off")
     public ResponseEntity<Relay> pulseSignalOnOff(@PathVariable("relayNumber") int relayNumber)
     {
@@ -98,7 +98,7 @@ public class DenkoviRelayController
         return new ResponseEntity<>(relay, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping("/{relayNumber:[1-9]|1[0-6]}/pulse-signal/off-on")
     public ResponseEntity<Relay> pulseSignalOffOn(@PathVariable("relayNumber") int relayNumber)
     {

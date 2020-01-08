@@ -12,6 +12,7 @@ public class Procedure {
 
   private String name;
   private String description;
+  private Date createdAt;
   private Date modifiedAt;
 
   private List<Step> steps;

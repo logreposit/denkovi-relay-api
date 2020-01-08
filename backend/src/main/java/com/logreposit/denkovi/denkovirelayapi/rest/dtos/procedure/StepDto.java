@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class StepDto {
+public class StepDto<T extends TaskDto> {
   @NotNull
   private Integer order;
 
@@ -13,5 +13,5 @@ public class StepDto {
   private String name;
 
   private String description;
-  private TaskDto task;
+  private T task;
 }
