@@ -54,6 +54,8 @@ public class ProcedureService {
     return procedureOptional.get();
   }
 
+  // Just kept here for simplicity, should be extracted in a own service / other architecture if
+  // it grows heavily.
   private void executeTask(Task task) throws InterruptedException {
     if (task instanceof RelayOnTask)
     {
