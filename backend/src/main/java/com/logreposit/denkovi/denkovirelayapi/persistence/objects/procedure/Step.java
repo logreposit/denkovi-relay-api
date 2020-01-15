@@ -1,6 +1,5 @@
 package com.logreposit.denkovi.denkovirelayapi.persistence.objects.procedure;
 
-import com.logreposit.denkovi.denkovirelayapi.rest.dtos.procedure.TaskDto;
 import lombok.Data;
 
 @Data
