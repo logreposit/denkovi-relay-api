@@ -7,4 +7,5 @@ public interface ProcedureRepository
 {
     Optional<Procedure> get(String id);
     Procedure save(Procedure procedure);
+    void delete(String id);
 }

@@ -41,33 +41,44 @@ public class ProcedureController
   @PostMapping
   public ResponseEntity<ProcedureRetrievalDto> create(@RequestBody @Valid ProcedureCreationDto procedureCreationDto)
   {
-    return new ResponseEntity<>(null, HttpStatus.CREATED); // TODO
+    Procedure procedure = this.procedureDtoToEntityMapper.map(procedureCreationDto);
+    Procedure savedProcedure = this.procedureService.create(procedure);
+    ProcedureRetrievalDto procedureRetrievalDto = this.procedureEntityToDtoMapper.map(savedProcedure);
+
+    return new ResponseEntity<>(procedureRetrievalDto, HttpStatus.CREATED);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ProcedureRetrievalDto> get(@PathVariable("id") String id)
   {
-    return new ResponseEntity<>(null, HttpStatus.OK); // TODO
+    Procedure procedure = this.procedureService.retrieve(id);
+    ProcedureRetrievalDto procedureRetrievalDto = this.procedureEntityToDtoMapper.map(procedure);
+
+    return new ResponseEntity<>(procedureRetrievalDto, HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<ProcedureRetrievalDto> update(@PathVariable("id") String id,
-      @RequestBody @Valid ProcedureCreationDto procedureCreationDto)
-  {
-    return new ResponseEntity<>(null, HttpStatus.OK); // TODO
+      @RequestBody @Valid ProcedureCreationDto procedureCreationDto) {
+    Procedure procedure = this.procedureDtoToEntityMapper.map(procedureCreationDto);
+    Procedure updatedProcedure = this.procedureService.update(id, procedure);
+    ProcedureRetrievalDto procedureRetrievalDto = this.procedureEntityToDtoMapper.map(updatedProcedure);
+
+    return new ResponseEntity<>(procedureRetrievalDto, HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ProcedureRetrievalDto> delete(@PathVariable("id") String id)
   {
-    return new ResponseEntity<>(null, HttpStatus.NO_CONTENT); // TODO
+    this.procedureService.delete(id);
+
+    return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
   }
 
-  @PostMapping("/{id}")
-  public ResponseEntity<ProcedureRetrievalDto> play(@PathVariable("id") String id)
-  {
-    return new ResponseEntity<>(null, HttpStatus.OK); // TODO
-  }
+  @PostMapping("/{id}/actions/play")
+  public ResponseEntity<Void> play(@PathVariable("id") String id) throws InterruptedException {
+    this.procedureService.play(id);
 
-  // TODO DoM: Add controller to add, delete, play procedures
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

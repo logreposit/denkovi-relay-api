@@ -26,20 +26,11 @@ public class ProcedureRepositoryImpl implements ProcedureRepository
     }
 
     @Override
-    public Optional<Procedure> get(String id)
-    {
-        Cursor<Procedure> cursor = this.repository.find(ObjectFilters.eq("id", id));
-        Procedure procedure = cursor.firstOrDefault();
-
-        return Optional.ofNullable(procedure);
-    }
-
-    @Override
     public Procedure save(Procedure procedure)
     {
         Optional<Procedure> storedProcedure = this.get(procedure.getId());
 
-        if (!storedProcedure.isPresent())
+        if (storedProcedure.isEmpty())
         {
             this.insert(procedure);
         }
@@ -49,6 +40,27 @@ public class ProcedureRepositoryImpl implements ProcedureRepository
         }
 
         return procedure;
+    }
+
+    @Override
+    public Optional<Procedure> get(String id)
+    {
+        Cursor<Procedure> cursor = this.repository.find(ObjectFilters.eq("id", id));
+        Procedure procedure = cursor.firstOrDefault();
+
+        return Optional.ofNullable(procedure);
+    }
+
+    @Override
+    public void delete(String id) {
+        WriteResult writeResult = this.repository.remove(ObjectFilters.eq("id", id));
+
+        if (writeResult.getAffectedCount() != 1)
+        {
+            logger.error("Unable to delete Procedure object");
+
+            throw new RuntimeException("unbale to delete Procedure object");
+        }
     }
 
     private void insert(Procedure procedure)
