@@ -76,9 +76,9 @@ public class ProcedureController
   }
 
   @PostMapping("/{id}/actions/play")
-  public ResponseEntity<Void> play(@PathVariable("id") String id) throws InterruptedException {
+  public ResponseEntity<Void> play(@PathVariable("id") String id) {
     this.procedureService.play(id);
 
-    return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
 }
