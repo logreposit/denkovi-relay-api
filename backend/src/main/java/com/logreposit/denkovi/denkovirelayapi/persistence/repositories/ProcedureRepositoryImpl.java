@@ -1,6 +1,7 @@
 package com.logreposit.denkovi.denkovirelayapi.persistence.repositories;
 
 import com.logreposit.denkovi.denkovirelayapi.persistence.objects.procedure.Procedure;
+import java.util.List;
 import java.util.Optional;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.WriteResult;
@@ -49,6 +50,16 @@ public class ProcedureRepositoryImpl implements ProcedureRepository
         Procedure procedure = cursor.firstOrDefault();
 
         return Optional.ofNullable(procedure);
+    }
+
+    @Override
+    public List<Procedure> findAll()
+    {
+        Cursor<Procedure> cursor = this.repository.find();
+
+        List<Procedure> procedures = cursor.toList();
+
+        return procedures;
     }
 
     @Override
