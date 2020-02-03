@@ -7,15 +7,19 @@ import com.logreposit.denkovi.denkovirelayapi.persistence.objects.procedure.Slee
 import com.logreposit.denkovi.denkovirelayapi.persistence.objects.procedure.Step;
 import com.logreposit.denkovi.denkovirelayapi.persistence.objects.procedure.Task;
 import com.logreposit.denkovi.denkovirelayapi.persistence.repositories.ProcedureRepository;
+import com.logreposit.denkovi.denkovirelayapi.rest.dtos.Relay;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayState;
 import com.logreposit.denkovi.denkovirelayapi.services.DenkoviRelayService;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,14 +28,18 @@ public class ProcedureService {
   private final ProcedureRepository procedureRepository;
   private final DenkoviRelayService denkoviRelayService;
   private final Executor executor;
+  private final SimpMessagingTemplate messagingTemplate;
 
   @Autowired
-  public ProcedureService(ProcedureRepository procedureRepository, DenkoviRelayService denkoviRelayService,
-      @Qualifier("simpleAsyncExecutor") Executor executor)
+  public ProcedureService(ProcedureRepository procedureRepository,
+      DenkoviRelayService denkoviRelayService,
+      @Qualifier("simpleAsyncExecutor") Executor executor,
+      SimpMessagingTemplate messagingTemplate)
   {
     this.procedureRepository = procedureRepository;
     this.denkoviRelayService = denkoviRelayService;
     this.executor = executor;
+    this.messagingTemplate = messagingTemplate;
   }
 
   public Procedure create(Procedure procedure) {
@@ -40,6 +48,10 @@ public class ProcedureService {
     Procedure savedProcedure = this.procedureRepository.save(procedure);
 
     return savedProcedure;
+  }
+
+  public List<Procedure> list() {
+    return this.procedureRepository.findAll();
   }
 
   public Procedure retrieve(String procedureId) {
@@ -81,6 +93,8 @@ public class ProcedureService {
           Thread.currentThread().interrupt();
         }
       }
+
+      this.sendProcedureCompletedMessage(procedureId);
     });
   }
 
@@ -103,5 +117,13 @@ public class ProcedureService {
     {
       throw new RuntimeException("not yet implemented");
     }
+  }
+
+  private void sendProcedureCompletedMessage(String id) {
+    Map<String, String> procedureCompletedMessagePayload = new HashMap<>();
+
+    procedureCompletedMessagePayload.put("id", id);
+
+    this.messagingTemplate.convertAndSend("/procedures/completed", procedureCompletedMessagePayload);
   }
 }
