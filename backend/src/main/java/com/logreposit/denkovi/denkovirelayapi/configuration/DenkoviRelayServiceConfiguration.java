@@ -37,6 +37,7 @@ public class DenkoviRelayServiceConfiguration
                 this.messagingTemplate);
         }
 
-        return new DenkoviRelayServiceImpl(this.denkoviSerialClient, this.relayRepository);
+        return new DenkoviRelayServiceImpl(this.denkoviSerialClient, this.relayRepository,
+            this.messagingTemplate);
     }
 }
