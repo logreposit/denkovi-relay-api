@@ -1,4 +1,5 @@
 package com.logreposit.denkovi.denkovirelayapi.services;
+
 import java.util.Date;
 
 import com.logreposit.denkovi.denkovirelayapi.communication.serial.Denkovi16ChannelRelayState;

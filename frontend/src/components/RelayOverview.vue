@@ -44,24 +44,7 @@ export default {
     mounted () {
         this.initialLoad();
         //this.refreshTimer = setInterval(this.initialLoad, 7500)
-
-        this.$nextTick(function () {
-            let socket = new SockJS('/socket');
-            let stompClient = Stomp.over(socket);
-
-            stompClient.connect(
-                {},
-                function(frame) {
-                    console.log('Connected: ' + frame);
-
-                    stompClient.subscribe("/relays", function(val) {
-                        console.log(val);
-                        console.log(JSON.parse(val.body));
-                        //vm.valuesList = JSON.parse(val.body); // TODO DoM
-                    });
-                }
-            );
-        })
+        this.initializeSockets();
     },
     beforeDestroy () {
         //clearInterval(this.refreshTimer)
@@ -95,6 +78,22 @@ export default {
                     this.loading = false;
                 })
                 .catch(error => console.error(error))
+        },
+        initializeSockets () {
+            let socket = new SockJS('/socket');
+            let stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, (frame) => {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe("/relays", (msg) => {
+                    this.processMessage(msg);
+                });
+            });
+        },
+        processMessage (val) {
+            let relay = JSON.parse(val.body);
+            console.log('Relay Changed Event: ', relay);
+            this.setRelay(relay.number, relay.state);
         },
         setRelay (number, state) {
             this.relays.forEach((array) => {
