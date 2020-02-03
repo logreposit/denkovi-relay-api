@@ -28,6 +28,8 @@
 <script>
 import relayApi from '@/services/RelayApi'
 import Vue from 'vue'
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 // IMPORTANT!!
 // https://github.com/anoobbava/movie-app
@@ -41,10 +43,28 @@ export default {
     },
     mounted () {
         this.initialLoad();
-        this.refreshTimer = setInterval(this.initialLoad, 7500)
+        //this.refreshTimer = setInterval(this.initialLoad, 7500)
+
+        this.$nextTick(function () {
+            let socket = new SockJS('/socket');
+            let stompClient = Stomp.over(socket);
+
+            stompClient.connect(
+                {},
+                function(frame) {
+                    console.log('Connected: ' + frame);
+
+                    stompClient.subscribe("/relays", function(val) {
+                        console.log(val);
+                        console.log(JSON.parse(val.body));
+                        //vm.valuesList = JSON.parse(val.body); // TODO DoM
+                    });
+                }
+            );
+        })
     },
     beforeDestroy () {
-        clearInterval(this.refreshTimer)
+        //clearInterval(this.refreshTimer)
     },
     methods: {
         turnOnRelay (number) {

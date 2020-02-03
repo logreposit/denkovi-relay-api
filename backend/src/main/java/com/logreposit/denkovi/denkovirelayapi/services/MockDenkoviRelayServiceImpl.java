@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 public class MockDenkoviRelayServiceImpl implements DenkoviRelayService
 {
@@ -17,10 +18,12 @@ public class MockDenkoviRelayServiceImpl implements DenkoviRelayService
 
     private final List<Relay> relays;
     private final long mockDelayInMilliseconds;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public MockDenkoviRelayServiceImpl(long mockDelayInMilliseconds)
+    public MockDenkoviRelayServiceImpl(long mockDelayInMilliseconds, SimpMessagingTemplate messagingTemplate)
     {
         this.mockDelayInMilliseconds = mockDelayInMilliseconds;
+        this.messagingTemplate = messagingTemplate;
         this.relays = new ArrayList<>(NUM_RELAYS);
 
         for (int i = 0; i < NUM_RELAYS; i++)
@@ -44,7 +47,10 @@ public class MockDenkoviRelayServiceImpl implements DenkoviRelayService
 
         relays.forEach(r -> this.relays.stream()
                                        .filter(relay -> relay.getNumber() == r.getNumber())
-                                       .forEach(relay -> relay.setState(r.getState())));
+                                       .forEach(relay -> {
+                                           relay.setState(r.getState());
+                                           this.sendRelayMessage(relay);
+                                       }));
     }
 
     @Override
@@ -54,7 +60,10 @@ public class MockDenkoviRelayServiceImpl implements DenkoviRelayService
 
         this.relays.stream()
                    .filter(r -> r.getNumber() == relayNumber)
-                   .forEach(r -> r.setState(relayState));
+                   .forEach(r -> {
+                       r.setState(relayState);
+                       this.sendRelayMessage(r);
+                   });
     }
 
     @Override
@@ -86,5 +95,9 @@ public class MockDenkoviRelayServiceImpl implements DenkoviRelayService
 
             Thread.currentThread().interrupt();
         }
+    }
+
+    private void sendRelayMessage(Relay relay) {
+        this.messagingTemplate.convertAndSend("/relays", relay);
     }
 }
