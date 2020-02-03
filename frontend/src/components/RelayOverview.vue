@@ -50,16 +50,6 @@
     </v-container>
 </template>
 
-<style>
-    .red-bckgr {
-        background-color: red;
-    }
-
-    .green-bckgr {
-        background-color: green;
-    }
-</style>
-
 <script>
 import relayApi from '@/services/RelayApi'
 import Vue from 'vue'
@@ -123,7 +113,7 @@ export default {
                 })
         },
         initializeSockets () {
-            let socket = new SockJS('http://192.168.8.106:8080/socket');
+            let socket = new SockJS('/socket');
             let stompClient = Stomp.over(socket);
 
             stompClient.connect({}, (frame) => {
