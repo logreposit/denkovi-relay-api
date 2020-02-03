@@ -2,8 +2,33 @@
     <v-container v-if="loading">
     </v-container>
     <v-container v-else grid-list-xl>
+        <v-row no-gutters>
+            <v-col cols="3" v-for="(relay, index) in relays" :key="index">
+                <v-card class="pa-1 text-center" v-bind:class="{ 'green': relay.state === 'ON', 'redasdf': relay.state === 'OFF' }" outlined tile>
+                    K {{ relay.number }}
+                </v-card>
+            </v-col>
+        </v-row>
+
         <v-layout wrap>
-            <v-flex md3 sm6 xs12 v-for="(relay, index) in relays" :key="index" mb-2>
+            <v-flex md3 sm6 xs12 v-for="(procedure, index) in procedures" :key="'p' + index" mb-2>
+                <v-card>
+                    <v-card-title primary-title>
+                        Procedure {{index + 1}}
+                    </v-card-title>
+                    <v-card-text>
+                        <p v-if="procedure.name">{{ procedure.name }}</p>
+                    </v-card-text>
+                    <v-card-actions class="justify-center">
+                        <v-btn text v-show="procedure.ready === true" @click="playProcedure(procedure.id)">Play</v-btn>
+                        <v-btn loading v-show="procedure.ready === false"></v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+
+        <v-layout wrap>
+            <v-flex md3 sm6 xs12 v-for="(relay, index) in relays" :key="'r' + index" mb-2>
                 <v-card>
                     <v-card-title primary-title>
                         Relay {{ relay.number }}
@@ -11,8 +36,8 @@
                     <v-card-text>
                         <p v-if="relay.name">{{ relay.name }}</p>
                         Relay is
-                        <span v-show="relay.state == 'ON'" class="green--text">{{ relay.state }}</span>
-                        <span v-show="relay.state == 'OFF'" class="red--text">{{ relay.state }}</span>
+                        <span v-show="relay.state === 'ON'" class="green--text">{{ relay.state }}</span>
+                        <span v-show="relay.state === 'OFF'" class="red--text">{{ relay.state }}</span>
                     </v-card-text>
                     <v-card-actions class="justify-center">
                         <v-btn text color="green" v-show="relay.state === 'OFF' && relay.ready === true" @click="turnOnRelay(relay.number)">Turn ON</v-btn>
@@ -24,6 +49,16 @@
         </v-layout>
     </v-container>
 </template>
+
+<style>
+    .red-bckgr {
+        background-color: red;
+    }
+
+    .green-bckgr {
+        background-color: green;
+    }
+</style>
 
 <script>
 import relayApi from '@/services/RelayApi'
@@ -38,7 +73,8 @@ export default {
     data () {
         return {
             'loading': true,
-            'relays': []
+            'relays': [],
+            'procedures': []
         }
     },
     mounted () {
@@ -78,9 +114,16 @@ export default {
                     this.loading = false;
                 })
                 .catch(error => console.error(error))
+            relayApi.fetchProcedures()
+                .then(response => {
+                    this.procedures = response.data;
+                    this.procedures.forEach((procedure) => {
+                        procedure.ready = true
+                    })
+                })
         },
         initializeSockets () {
-            let socket = new SockJS('/socket');
+            let socket = new SockJS('http://192.168.8.106:8080/socket');
             let stompClient = Stomp.over(socket);
 
             stompClient.connect({}, (frame) => {
@@ -88,12 +131,20 @@ export default {
                 stompClient.subscribe("/relays", (msg) => {
                     this.processMessage(msg);
                 });
+                stompClient.subscribe("/procedures/completed", (msg) => {
+                    this.processProcedureCompletedMessage(msg);
+                })
             });
         },
         processMessage (val) {
             let relay = JSON.parse(val.body);
             console.log('Relay Changed Event: ', relay);
             this.setRelay(relay.number, relay.state);
+        },
+        processProcedureCompletedMessage (val) {
+            let procedureCompleted = JSON.parse(val.body);
+            console.log('Procedure Completed Event: ', procedureCompleted);
+            this.setProcedureReady(procedureCompleted.id, true);
         },
         setRelay (number, state) {
             this.relays.forEach((array) => {
@@ -110,6 +161,22 @@ export default {
                 }
             })
         },
+        playProcedure (id, ready) {
+            this.setProcedureReady(id, false);
+            relayApi.playProcedure(id)
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(error => console.error(error))
+        },
+        setProcedureReady (id, ready) {
+            this.procedures.forEach((procedure, index) => {
+                if (procedure.id === id && procedure.ready !== ready) {
+                    procedure.ready = ready;
+                    Vue.set(this.procedures, index, procedure)
+                }
+            })
+        }
     }
 }
 </script>
