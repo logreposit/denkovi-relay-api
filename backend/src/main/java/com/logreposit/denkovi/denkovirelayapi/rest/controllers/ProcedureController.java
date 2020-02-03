@@ -5,11 +5,14 @@ import com.logreposit.denkovi.denkovirelayapi.rest.dtos.procedure.ProcedureCreat
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.procedure.ProcedureRetrievalDto;
 import com.logreposit.denkovi.denkovirelayapi.services.procedure.ProcedureService;
 import com.remondis.remap.Mapper;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +41,18 @@ public class ProcedureController
     this.procedureEntityToDtoMapper = procedureEntityToDtoMapper;
   }
 
+  @CrossOrigin
+  @GetMapping
+  public ResponseEntity<List<ProcedureRetrievalDto>> list() {
+    List<Procedure> procedures = this.procedureService.list();
+    List<ProcedureRetrievalDto> procedureRetrievalDtos = procedures.stream().map(
+        this.procedureEntityToDtoMapper::map).collect(
+        Collectors.toList());
+
+    return new ResponseEntity<>(procedureRetrievalDtos, HttpStatus.OK);
+  }
+
+  @CrossOrigin // TODO
   @PostMapping
   public ResponseEntity<ProcedureRetrievalDto> create(@RequestBody @Valid ProcedureCreationDto procedureCreationDto)
   {
@@ -48,6 +63,7 @@ public class ProcedureController
     return new ResponseEntity<>(procedureRetrievalDto, HttpStatus.CREATED);
   }
 
+  @CrossOrigin // TODO
   @GetMapping("/{id}")
   public ResponseEntity<ProcedureRetrievalDto> get(@PathVariable("id") String id)
   {
@@ -57,6 +73,7 @@ public class ProcedureController
     return new ResponseEntity<>(procedureRetrievalDto, HttpStatus.OK);
   }
 
+  @CrossOrigin // TODO
   @PutMapping("/{id}")
   public ResponseEntity<ProcedureRetrievalDto> update(@PathVariable("id") String id,
       @RequestBody @Valid ProcedureCreationDto procedureCreationDto) {
@@ -67,6 +84,7 @@ public class ProcedureController
     return new ResponseEntity<>(procedureRetrievalDto, HttpStatus.OK);
   }
 
+  @CrossOrigin // TODO
   @DeleteMapping("/{id}")
   public ResponseEntity<ProcedureRetrievalDto> delete(@PathVariable("id") String id)
   {
@@ -75,6 +93,7 @@ public class ProcedureController
     return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
   }
 
+  @CrossOrigin
   @PostMapping("/{id}/actions/play")
   public ResponseEntity<Void> play(@PathVariable("id") String id) {
     this.procedureService.play(id);
