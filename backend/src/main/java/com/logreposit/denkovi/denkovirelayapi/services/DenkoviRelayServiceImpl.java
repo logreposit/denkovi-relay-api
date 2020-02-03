@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 public class DenkoviRelayServiceImpl implements DenkoviRelayService
 {
@@ -22,11 +23,15 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
 
     private final DenkoviSerialClient denkoviSerialClient;
     private final RelayRepository relayRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public DenkoviRelayServiceImpl(DenkoviSerialClient denkoviSerialClient, RelayRepository relayRepository)
+    public DenkoviRelayServiceImpl(DenkoviSerialClient denkoviSerialClient,
+        RelayRepository relayRepository,
+        SimpMessagingTemplate messagingTemplate)
     {
         this.denkoviSerialClient = denkoviSerialClient;
         this.relayRepository = relayRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @Override
@@ -55,6 +60,8 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
         relays.forEach(r -> state.set(r.getNumber() - 1, relayStateToBoolean(r.getState())));
 
         this.denkoviSerialClient.set(state);
+
+        relays.forEach(this::sendRelayMessage);
     }
 
     @Override
@@ -65,6 +72,8 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
         boolean state = relayStateToBoolean(relayState);
 
         this.denkoviSerialClient.set(relayNumber - 1, state);
+
+        this.sendRelayMessage(this.buildRelay(relayNumber, relayState));
     }
 
     @Override
@@ -142,5 +151,9 @@ public class DenkoviRelayServiceImpl implements DenkoviRelayService
         }
 
         return relay;
+    }
+
+    private void sendRelayMessage(Relay relay) {
+        this.messagingTemplate.convertAndSend("/relays", relay);
     }
 }
