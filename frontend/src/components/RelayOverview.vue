@@ -31,10 +31,9 @@
             <v-flex md3 sm6 xs12 v-for="(relay, index) in relays" :key="'r' + index" mb-2>
                 <v-card>
                     <v-card-title primary-title>
-                        Relay {{ relay.number }}
+                        K {{ relay.number }} <span v-show="relay.name"> - {{ relay.name }}</span>
                     </v-card-title>
                     <v-card-text>
-                        <p v-if="relay.name">{{ relay.name }}</p>
                         Relay is
                         <span v-show="relay.state === 'ON'" class="green--text">{{ relay.state }}</span>
                         <span v-show="relay.state === 'OFF'" class="red--text">{{ relay.state }}</span>
