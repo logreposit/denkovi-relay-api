@@ -77,7 +77,7 @@ public class ProcedureService {
     this.procedureRepository.delete(procedureId);
   }
 
-  public void play(String procedureId) {
+  public void run(String procedureId) {
     Procedure procedure = this.retrieve(procedureId);
     List<Step> steps = procedure.getSteps();
 

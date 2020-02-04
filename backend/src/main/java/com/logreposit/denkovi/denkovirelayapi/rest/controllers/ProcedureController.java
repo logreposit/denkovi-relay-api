@@ -94,9 +94,9 @@ public class ProcedureController
   }
 
   @CrossOrigin
-  @PostMapping("/{id}/actions/play")
-  public ResponseEntity<Void> play(@PathVariable("id") String id) {
-    this.procedureService.play(id);
+  @PostMapping("/{id}/actions/run")
+  public ResponseEntity<Void> run(@PathVariable("id") String id) {
+    this.procedureService.run(id);
 
     return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }

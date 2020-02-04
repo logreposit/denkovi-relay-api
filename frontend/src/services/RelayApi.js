@@ -13,7 +13,7 @@ export default {
     fetchProcedures () {
         return axios.get('/procedures')
     },
-    playProcedure (id) {
-        return axios.post('/procedures/' + id + '/actions/play')
+    runProcedure (id) {
+        return axios.post('/procedures/' + id + '/actions/run')
     }
 }
