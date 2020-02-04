@@ -14,13 +14,16 @@
             <v-flex md3 sm6 xs12 v-for="(procedure, index) in procedures" :key="'p' + index" mb-2>
                 <v-card>
                     <v-card-title primary-title>
-                        Procedure {{index + 1}}
+                        P {{index + 1}}
                     </v-card-title>
                     <v-card-text>
-                        <p v-if="procedure.name">{{ procedure.name }}</p>
+                        <p v-if="procedure.name">
+                            {{ procedure.name }}
+                            <span v-if="procedure.description">({{ procedure.description }})</span>
+                        </p>
                     </v-card-text>
                     <v-card-actions class="justify-center">
-                        <v-btn text v-show="procedure.ready === true" @click="playProcedure(procedure.id)">Play</v-btn>
+                        <v-btn text v-show="procedure.ready === true" @click="runProcedure(procedure.id)">Run</v-btn>
                         <v-btn loading v-show="procedure.ready === false"></v-btn>
                     </v-card-actions>
                 </v-card>
@@ -150,9 +153,9 @@ export default {
                 }
             })
         },
-        playProcedure (id, ready) {
+        runProcedure (id, ready) {
             this.setProcedureReady(id, false);
-            relayApi.playProcedure(id)
+            relayApi.runProcedure(id)
                 .then(response => {
                     console.log(response)
                 })
