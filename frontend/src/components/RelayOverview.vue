@@ -4,53 +4,84 @@
     <v-container v-else grid-list-xl>
         <v-row no-gutters>
             <v-col cols="3" v-for="(relay, index) in relays" :key="index">
-                <v-card class="pa-1 text-center" v-bind:class="{ 'green': relay.state === 'ON', 'redasdf': relay.state === 'OFF' }" outlined tile>
+                <v-card class="pa-0 text-center relayDisplay" v-bind:class="{ 'green': relay.state === 'ON', 'redasdf': relay.state === 'OFF' }" tile>
                     K {{ relay.number }}
                 </v-card>
             </v-col>
         </v-row>
 
-        <v-layout wrap>
-            <v-flex md3 sm6 xs12 v-for="(procedure, index) in procedures" :key="'p' + index" mb-2>
-                <v-card>
-                    <v-card-title primary-title>
-                        P {{index + 1}}
-                    </v-card-title>
-                    <v-card-text>
-                        <p v-if="procedure.name">
-                            {{ procedure.name }}
-                            <span v-if="procedure.description">({{ procedure.description }})</span>
-                        </p>
-                    </v-card-text>
-                    <v-card-actions class="justify-center">
-                        <v-btn text v-show="procedure.ready === true" @click="runProcedure(procedure.id)">Run</v-btn>
-                        <v-btn loading v-show="procedure.ready === false"></v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
+        <v-layout child-flex>
+            <v-simple-table>
+                <template v-slot:default>
+                    <thead>
+                        <tr>
+                            <th class="relayIdx">#</th>
+                            <th>Name</th>
+                            <th class="buttonCol"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(procedure, index) in procedures" :key="'p' + index" :class="{ activeRow: false }">
+                            <th>P {{index + 1}}</th>
+                            <td>{{ procedure.name }}</td>
+                            <td>
+                                <v-card-actions class="justify-center">
+                                    <v-btn text v-show="procedure.ready === true" @click="runProcedure(procedure.id)">Run</v-btn>
+                                    <v-btn loading v-show="procedure.ready === false"></v-btn>
+                                </v-card-actions>
+                            </td>
+                        </tr>
+                    </tbody>
+                </template>
+            </v-simple-table>
         </v-layout>
 
-        <v-layout wrap>
-            <v-flex md3 sm6 xs12 v-for="(relay, index) in relays" :key="'r' + index" mb-2>
-                <v-card>
-                    <v-card-title primary-title>
-                        K {{ relay.number }} <span v-show="relay.name"> - {{ relay.name }}</span>
-                    </v-card-title>
-                    <v-card-text>
-                        Relay is
-                        <span v-show="relay.state === 'ON'" class="green--text">{{ relay.state }}</span>
-                        <span v-show="relay.state === 'OFF'" class="red--text">{{ relay.state }}</span>
-                    </v-card-text>
-                    <v-card-actions class="justify-center">
-                        <v-btn text color="green" v-show="relay.state === 'OFF' && relay.ready === true" @click="turnOnRelay(relay.number)">Turn ON</v-btn>
-                        <v-btn text color="red" v-show="relay.state === 'ON' && relay.ready === true" @click="turnOffRelay(relay.number)">Turn OFF</v-btn>
-                        <v-btn loading v-show="relay.ready === false"></v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
+        <v-layout child-flex>
+            <v-simple-table>
+                <template v-slot:default>
+                    <thead>
+                        <tr>
+                            <th class="relayIdx">#</th>
+                            <th>Name</th>
+                            <th class="buttonCol"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(relay, index) in relays" :key="'r' + index" :class="{ activeRow: relay.state === 'ON' }">
+                            <th>K {{ relay.number }}</th>
+                            <td>{{ relay.name }}</td>
+                            <td>
+                                <v-card-actions class="justify-center">
+                                    <v-btn text color="green" v-show="relay.state === 'OFF' && relay.ready === true" @click="turnOnRelay(relay.number)">Turn ON</v-btn>
+                                    <v-btn text color="red" v-show="relay.state === 'ON' && relay.ready === true" @click="turnOffRelay(relay.number)">Turn OFF</v-btn>
+                                    <v-btn loading v-show="relay.ready === false"></v-btn>
+                                </v-card-actions>
+                            </td>
+                        </tr>
+                    </tbody>
+                </template>
+            </v-simple-table>
         </v-layout>
     </v-container>
 </template>
+
+<style scoped>
+    .activeRow {
+        background-color: rgba(232, 245, 233, 1);
+    }
+    .activeRow:hover {
+        background-color: rgba(232, 245, 233, 1) !important;
+    }
+    .buttonCol {
+        min-width: 168px;
+    }
+    .relayIdx {
+        min-width: 58px;
+    }
+    .relayDisplay {
+        box-shadow: none;
+    }
+</style>
 
 <script>
 import relayApi from '@/services/RelayApi'
@@ -153,7 +184,7 @@ export default {
                 }
             })
         },
-        runProcedure (id, ready) {
+        runProcedure (id) {
             this.setProcedureReady(id, false);
             relayApi.runProcedure(id)
                 .then(response => {
