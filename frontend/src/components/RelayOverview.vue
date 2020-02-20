@@ -1,14 +1,16 @@
 <template>
     <v-container v-if="loading">
     </v-container>
-    <v-container v-else grid-list-xl>
-        <v-row no-gutters>
-            <v-col cols="3" v-for="(relay, index) in relays" :key="index">
-                <v-card class="pa-0 text-center relayDisplay" v-bind:class="{ 'green': relay.state === 'ON', 'redasdf': relay.state === 'OFF' }" tile>
-                    K {{ relay.number }}
-                </v-card>
-            </v-col>
-        </v-row>
+    <v-container v-else grid-list-xl class="noPaddingTop">
+        <v-layout child-flex class="fixedRow">
+            <v-row no-gutters>
+                <v-col cols="3" v-for="(relay, index) in relays" :key="index">
+                    <v-card class="pa-0 text-center relayDisplay" v-bind:class="{ 'green': relay.state === 'ON', 'redasdf': relay.state === 'OFF' }" tile>
+                        K {{ relay.number }}
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-layout>
 
         <v-layout child-flex>
             <v-simple-table>
@@ -80,6 +82,15 @@
     }
     .relayDisplay {
         box-shadow: none;
+    }
+    .fixedRow {
+        position: sticky;
+        top: 52px;
+        z-index: 1;
+        /*padding-bottom: 12px;*/
+    }
+    .noPaddingTop {
+        padding-top: 0;
     }
 </style>
 
