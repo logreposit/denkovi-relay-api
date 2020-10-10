@@ -70,7 +70,7 @@ jobs:
           name: Run Tests
           command: cd backend && mvn test -B
       - maven/process_test_results:
-          test_results_path: ~/project/target/surefire-reports
+          test_results_path: ~/project/backend/target/surefire-reports
       - codecov/upload:
           when: on_success
 
