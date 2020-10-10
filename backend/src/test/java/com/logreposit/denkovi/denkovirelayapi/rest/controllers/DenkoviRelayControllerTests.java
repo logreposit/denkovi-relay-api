@@ -3,14 +3,18 @@ package com.logreposit.denkovi.denkovirelayapi.rest.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.Relay;
 import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayState;
+import com.logreposit.denkovi.denkovirelayapi.rest.mapper.ProcedureMapper;
 import com.logreposit.denkovi.denkovirelayapi.services.DenkoviRelayService;
+import com.logreposit.denkovi.denkovirelayapi.services.procedure.ProcedureService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -31,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest
+@WebMvcTest(controllers = {DenkoviRelayController.class})
 public class DenkoviRelayControllerTests
 {
     @Autowired
