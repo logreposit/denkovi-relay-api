@@ -58,7 +58,6 @@ jobs:
 
   backend_tests:
     executor: build-container
-    parallelism: 2
     resource_class: small
     steps:
       - attach_workspace:
@@ -68,24 +67,8 @@ jobs:
             - denkovi-relay-api-{{ checksum "pom.xml" }}
             - denkovi-relay-api-
       - run:
-          name: Enable Test Splitting
-          command: |
-            mkdir -p .circleci/tests/
-            # generate excluded surefire tests using provided pattern
-
-            circleci tests glob backend/src/test/java/**/*Test.java backend/src/test/java/**/*Tests.java backend/src/test/java/**/*IT.java | \
-            sed -e 's#^backend/src/test/java/\(.*\)\.java#\1#' | \
-            tr "/" "." > .circleci/tests/surefire_classnames
-
-            cat .circleci/tests/surefire_classnames | \
-              circleci tests split --split-by=timings --timings-type=classname > /tmp/this_node_tests
-            cat .circleci/tests/surefire_classnames | \
-              grep -xvf /tmp/this_node_tests > .circleci/tests/surefire_classnames_ignore_list
-      - store_artifacts:
-          path: .circleci/tests/
-      - run:
           name: Run Tests
-          command: mvn test -B -Dsurefire.excludesFile=.circleci/tests/surefire_classnames_ignore_list
+          command: cd backend && mvn test -B
       - maven/process_test_results:
           test_results_path: ~/project/target/surefire-reports
       - codecov/upload:
