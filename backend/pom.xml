@@ -6,21 +6,19 @@
   <parent>
     <groupId>com.logreposit.denkovi</groupId>
     <artifactId>denkovi-relay-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>SNAPSHOT</version>
   </parent>
 
   <artifactId>denkovi-relay-api-backend</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>SNAPSHOT</version>
   <name>denkovi-relay-api-backend</name>
   <description>denkovi-relay-api-backend</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>12</java.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <java.version>11</java.version>
   </properties>
 
   <dependencies>
@@ -44,6 +42,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
 
     <dependency>

@@ -64,7 +64,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$").isArray())
                        .andExpect(jsonPath("$[0].number").value(1))
                        .andExpect(jsonPath("$[0].state").value(RelayState.OFF.toString()))
@@ -118,7 +118,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(MockMvcResultHandlers.print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$").isArray())
                        .andExpect(jsonPath("$[0].number").value(1))
                        .andExpect(jsonPath("$[0].state").value(RelayState.OFF.toString()))
@@ -167,7 +167,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$.number").value(4))
                        .andExpect(jsonPath("$.state").value(RelayState.OFF.toString()));
 
@@ -184,7 +184,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(MockMvcResultHandlers.print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$.number").value(5))
                        .andExpect(jsonPath("$.state").value(RelayState.ON.toString()));
 
@@ -202,7 +202,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(MockMvcResultHandlers.print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$.number").value(6))
                        .andExpect(jsonPath("$.state").value(RelayState.OFF.toString()));
 
@@ -220,7 +220,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(MockMvcResultHandlers.print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$.number").value(7))
                        .andExpect(jsonPath("$.state").value(RelayState.OFF.toString()));
 
@@ -239,7 +239,7 @@ public class DenkoviRelayControllerTests
         this.controller.perform(request)
                        .andDo(MockMvcResultHandlers.print())
                        .andExpect(status().isOk())
-                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                       .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                        .andExpect(jsonPath("$.number").value(7))
                        .andExpect(jsonPath("$.state").value(RelayState.ON.toString()));
 

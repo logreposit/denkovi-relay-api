@@ -5,7 +5,7 @@
 
   <groupId>com.logreposit.denkovi</groupId>
   <artifactId>denkovi-relay-api</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>denkovi-relay-api</name>
   <description>denkovi-relay-api</description>
@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.6.RELEASE</version>
+    <version>2.3.4.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
