@@ -1,0 +1,86 @@
+{
+  "name": "list-relays",
+  "request": {
+    "url": "/v1/api/relays",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 1200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin" : "*",
+      "Access-Control-Allow-Methods" : "*",
+      "Access-Control-Allow-Headers": "Accept, Content-Type, Content-Encoding, Server, Transfer-Encoding",
+      "X-Content-Type-Options" : "nosniff",
+      "x-frame-options" : "DENY",
+      "x-xss-protection" : "1; mode=block"
+    },
+    "jsonBody": [
+      {
+        "number": 1,
+        "state": "ON"
+      },
+      {
+        "number": 2,
+        "state": "OFF"
+      },
+      {
+        "number": 3,
+        "state": "ON"
+      },
+      {
+        "number": 4,
+        "state": "OFF"
+      },
+      {
+        "number": 5,
+        "state": "ON"
+      },
+      {
+        "number": 6,
+        "state": "OFF"
+      },
+      {
+        "number": 7,
+        "state": "ON"
+      },
+      {
+        "number": 8,
+        "state": "OFF"
+      },
+      {
+        "number": 9,
+        "state": "ON"
+      },
+      {
+        "number": 10,
+        "state": "OFF"
+      },
+      {
+        "number": 11,
+        "state": "ON"
+      },
+      {
+        "number": 12,
+        "state": "OFF"
+      },
+      {
+        "number": 13,
+        "state": "ON"
+      },
+      {
+        "number": 14,
+        "state": "OFF"
+      },
+      {
+        "number": 15,
+        "state": "ON"
+      },
+      {
+        "number": 16,
+        "state": "OFF"
+      }
+    ]
+  }
+}

@@ -1,9 +1,0 @@
-- service: build-jar-service
-  name: Test and Build JAR
-  exclude: ^(v)
-  command: /srv/project/build/build-jar.sh
-
-- service: build-docker-service
-  name: Dockerize
-  exclude: ^(v)
-  command: /srv/project/build/dockerize.sh

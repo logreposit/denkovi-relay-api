@@ -20,7 +20,8 @@ mvn clean package
 
 echo "Copying final jar to shared build directory ..."
 
-cp -v "target/${project_name}.jar" /srv/shared/app.jar
+# cp -v "backend/target/${project_name}.jar" /srv/shared/app.jar
+cp -v "backend/target/denkovi-relay-api-backend.jar" /srv/shared/app.jar
 
 rm -f /srv/shared/project_name.txt
 rm -f /srv/shared/project_version.txt
