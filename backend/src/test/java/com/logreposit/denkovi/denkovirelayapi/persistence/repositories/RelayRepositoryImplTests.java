@@ -7,18 +7,19 @@ import java.util.Date;
 
 import com.logreposit.denkovi.denkovirelayapi.persistence.objects.RelayData;
 import org.dizitart.no2.Nitrite;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RelayRepositoryImplTests
 {
     private RelayRepositoryImpl relayRepository;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         String databaseFilePath = System.getProperty("java.io.tmpdir") + File.separator + UUID.randomUUID().toString() + ".db";
@@ -37,8 +38,8 @@ public class RelayRepositoryImplTests
 
         RelayData inserted = this.relayRepository.save(relayData);
 
-        Assert.assertNotNull(inserted);
-        Assert.assertEquals(relayData, inserted);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(relayData);
     }
 
     @Test
@@ -48,13 +49,13 @@ public class RelayRepositoryImplTests
 
         RelayData inserted = this.relayRepository.save(relayData);
 
-        Assert.assertNotNull(inserted);
-        Assert.assertEquals(relayData, inserted);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(relayData);
 
         Optional<RelayData> retrievedOptional = this.relayRepository.get(relayData.getNumber());
 
-        Assert.assertTrue(retrievedOptional.isPresent());
-        Assert.assertEquals(relayData, retrievedOptional.get());
+        assertThat(retrievedOptional).isPresent();
+        assertThat(retrievedOptional.get()).isEqualTo(relayData);
     }
 
     @Test
@@ -64,8 +65,8 @@ public class RelayRepositoryImplTests
 
         RelayData inserted = this.relayRepository.save(relayData);
 
-        Assert.assertNotNull(inserted);
-        Assert.assertEquals(relayData, inserted);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(relayData);
 
         RelayData newRelayData = getSampleRelayData();
 
@@ -76,13 +77,13 @@ public class RelayRepositoryImplTests
 
         RelayData updated = this.relayRepository.save(newRelayData);
 
-        Assert.assertNotNull(updated);
-        Assert.assertEquals(newRelayData, updated);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(relayData);
 
         Optional<RelayData> retrievedOptional = this.relayRepository.get(relayData.getNumber());
 
-        Assert.assertTrue(retrievedOptional.isPresent());
-        Assert.assertEquals(newRelayData, retrievedOptional.get());
+        assertThat(retrievedOptional).isPresent();
+        assertThat(retrievedOptional.get()).isEqualTo(newRelayData);
     }
 
     private static RelayData getSampleRelayData()

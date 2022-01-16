@@ -1,21 +1,19 @@
 package com.logreposit.denkovi.denkovirelayapi.communication.serial;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.BitSet;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+
 public class Denkovi16ChannelRelayStateTests
 {
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     private Denkovi16ChannelRelayState state;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         this.state = new Denkovi16ChannelRelayState();
@@ -26,54 +24,50 @@ public class Denkovi16ChannelRelayStateTests
     {
         for (boolean bool : this.state.getAll())
         {
-            Assert.assertFalse(bool);
+            assertThat(bool).isFalse();
         }
     }
 
     @Test
     public void testGetAndSet()
     {
-        Assert.assertFalse(this.state.get(5));
+        assertThat(this.state.get(5)).isFalse();
 
         this.state.set(5, true);
 
-        Assert.assertTrue(this.state.get(5));
+        assertThat(this.state.get(5)).isTrue();
     }
 
     @Test
     public void testGet_numberSmallerThanZero()
     {
-        this.expectedException.expect(RuntimeException.class);
-        this.expectedException.expectMessage("number must be 0-15");
-
-        this.state.get(-1);
+        assertThatThrownBy(() -> this.state.get(-1))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("number must be 0-15");
     }
 
     @Test
     public void testGet_numberBiggerThanFifteen()
     {
-        this.expectedException.expect(RuntimeException.class);
-        this.expectedException.expectMessage("number must be 0-15");
-
-        this.state.get(16);
+        assertThatThrownBy(() -> this.state.get(16))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("number must be 0-15");
     }
 
     @Test
     public void testSet_numberSmallerThanZero()
     {
-        this.expectedException.expect(RuntimeException.class);
-        this.expectedException.expectMessage("number must be 0-15");
-
-        this.state.set(-1, true);
+        assertThatThrownBy(() -> this.state.get(-1))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("number must be 0-15");
     }
 
     @Test
     public void testSet_numberBiggerThanFifteen()
     {
-        this.expectedException.expect(RuntimeException.class);
-        this.expectedException.expectMessage("number must be 0-15");
-
-        this.state.set(16, true);
+        assertThatThrownBy(() -> this.state.get(16))
+                .isExactlyInstanceOf(RuntimeException.class)
+                .hasMessage("number must be 0-15");
     }
 
     @Test
@@ -85,24 +79,25 @@ public class Denkovi16ChannelRelayStateTests
 
         boolean[] states = this.state.getAll();
 
-        Assert.assertEquals(16, states.length);
-
-        Assert.assertTrue(states[0]);
-        Assert.assertFalse(states[1]);
-        Assert.assertFalse(states[2]);
-        Assert.assertFalse(states[3]);
-        Assert.assertFalse(states[4]);
-        Assert.assertTrue(states[5]);
-        Assert.assertFalse(states[6]);
-        Assert.assertFalse(states[7]);
-        Assert.assertFalse(states[8]);
-        Assert.assertFalse(states[9]);
-        Assert.assertFalse(states[10]);
-        Assert.assertFalse(states[11]);
-        Assert.assertFalse(states[12]);
-        Assert.assertTrue(states[13]);
-        Assert.assertFalse(states[14]);
-        Assert.assertFalse(states[15]);
+        assertSoftly(softly -> {
+            softly.assertThat(states).hasSize(16);
+            softly.assertThat(states[0]).isTrue();
+            softly.assertThat(states[1]).isFalse();
+            softly.assertThat(states[2]).isFalse();
+            softly.assertThat(states[3]).isFalse();
+            softly.assertThat(states[4]).isFalse();
+            softly.assertThat(states[5]).isTrue();
+            softly.assertThat(states[6]).isFalse();
+            softly.assertThat(states[7]).isFalse();
+            softly.assertThat(states[8]).isFalse();
+            softly.assertThat(states[9]).isFalse();
+            softly.assertThat(states[10]).isFalse();
+            softly.assertThat(states[11]).isFalse();
+            softly.assertThat(states[12]).isFalse();
+            softly.assertThat(states[13]).isTrue();
+            softly.assertThat(states[14]).isFalse();
+            softly.assertThat(states[15]).isFalse();
+        });
     }
 
     @Test
@@ -115,11 +110,11 @@ public class Denkovi16ChannelRelayStateTests
 
         byte[] byteArray = this.state.toByteArray();
 
-        Assert.assertEquals(2, byteArray.length);
+        assertThat(byteArray).hasSize(2);
 
         BitSet bitSet = BitSet.valueOf(byteArray);
 
-        Assert.assertNotNull(bitSet);
+        assertThat(bitSet).isNotNull();
 
         boolean relay0 = bitSet.get(7);
         boolean relay1 = bitSet.get(6);
@@ -138,22 +133,23 @@ public class Denkovi16ChannelRelayStateTests
         boolean relay14 = bitSet.get(9);
         boolean relay15 = bitSet.get(8);
 
-        Assert.assertTrue(relay0);
-        Assert.assertTrue(relay5);
-        Assert.assertTrue(relay10);
-        Assert.assertTrue(relay12);
-        Assert.assertFalse(relay1);
-        Assert.assertFalse(relay2);
-        Assert.assertFalse(relay3);
-        Assert.assertFalse(relay4);
-        Assert.assertFalse(relay6);
-        Assert.assertFalse(relay7);
-        Assert.assertFalse(relay8);
-        Assert.assertFalse(relay9);
-        Assert.assertFalse(relay11);
-        Assert.assertFalse(relay13);
-        Assert.assertFalse(relay14);
-        Assert.assertFalse(relay15);
+        assertThat(relay0).isTrue();
+        assertThat(relay5).isTrue();
+        assertThat(relay10).isTrue();
+        assertThat(relay12).isTrue();
+
+        assertThat(relay1).isFalse();
+        assertThat(relay2).isFalse();
+        assertThat(relay3).isFalse();
+        assertThat(relay4).isFalse();
+        assertThat(relay6).isFalse();
+        assertThat(relay7).isFalse();
+        assertThat(relay8).isFalse();
+        assertThat(relay9).isFalse();
+        assertThat(relay11).isFalse();
+        assertThat(relay13).isFalse();
+        assertThat(relay14).isFalse();
+        assertThat(relay15).isFalse();
     }
 
     @Test
@@ -174,23 +170,24 @@ public class Denkovi16ChannelRelayStateTests
 
         boolean[] states = this.state.getAll();
 
-        Assert.assertEquals(16, states.length);
+        assertThat(states).hasSize(16);
 
-        Assert.assertTrue(states[0]);
-        Assert.assertFalse(states[1]);
-        Assert.assertFalse(states[2]);
-        Assert.assertFalse(states[3]);
-        Assert.assertFalse(states[4]);
-        Assert.assertTrue(states[5]);
-        Assert.assertFalse(states[6]);
-        Assert.assertFalse(states[7]);
-        Assert.assertFalse(states[8]);
-        Assert.assertFalse(states[9]);
-        Assert.assertTrue(states[10]);
-        Assert.assertFalse(states[11]);
-        Assert.assertTrue(states[12]);
-        Assert.assertFalse(states[13]);
-        Assert.assertFalse(states[14]);
-        Assert.assertFalse(states[15]);
+        assertThat(states[0]).isTrue();
+        assertThat(states[5]).isTrue();
+        assertThat(states[10]).isFalse();
+        assertThat(states[12]).isFalse();
+
+        assertThat(states[1]).isFalse();
+        assertThat(states[2]).isFalse();
+        assertThat(states[3]).isFalse();
+        assertThat(states[4]).isFalse();
+        assertThat(states[6]).isFalse();
+        assertThat(states[7]).isFalse();
+        assertThat(states[8]).isFalse();
+        assertThat(states[9]).isFalse();
+        assertThat(states[11]).isFalse();
+        assertThat(states[13]).isFalse();
+        assertThat(states[14]).isFalse();
+        assertThat(states[15]).isFalse();
     }
 }

@@ -2,15 +2,16 @@ package com.logreposit.denkovi.denkovirelayapi.persistence.repositories;
 
 import com.logreposit.denkovi.denkovirelayapi.persistence.objects.RelayData;
 import org.dizitart.no2.Nitrite;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RelayRepositoryImplReuseTests
 {
@@ -20,7 +21,7 @@ public class RelayRepositoryImplReuseTests
 
     private String databaseFilePath;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         this.databaseFilePath = System.getProperty("java.io.tmpdir") + File.separator + DATABASE_UUID + ".db";
@@ -40,8 +41,8 @@ public class RelayRepositoryImplReuseTests
 
         RelayData saved = relayRepository.save(relayData);
 
-        Assert.assertNotNull(saved);
-        Assert.assertEquals(relayData, saved);
+        assertThat(saved).isNotNull();
+        assertThat(saved).isEqualTo(relayData);
 
         nitrite.close();
 
@@ -50,9 +51,9 @@ public class RelayRepositoryImplReuseTests
 
         Optional<RelayData> retrieved = relayRepository.get(5);
 
-        Assert.assertNotNull(retrieved);
-        Assert.assertTrue(retrieved.isPresent());
-        Assert.assertEquals(saved, retrieved.get());
+        assertThat(retrieved).isNotNull();
+        assertThat(retrieved).isPresent();
+        assertThat(retrieved.get()).isEqualTo(saved);
     }
 
     private static Nitrite build(String filePath)

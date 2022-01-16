@@ -1,4 +1,5 @@
 package com.logreposit.denkovi.denkovirelayapi.rest.mapper;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.logreposit.denkovi.denkovirelayapi.persistence.objects.procedure.RelayOffTask;
@@ -17,14 +18,14 @@ import com.remondis.remap.Mapper;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ProcedureMapperTests {
 
   private ProcedureMapper procedureMapper;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.procedureMapper = new ProcedureMapper();
   }
