@@ -91,10 +91,24 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+<!--        <configuration>-->
+<!--          <argLine>-->
+<!--            &#45;&#45;add-opens java.base/java.lang=ALL-UNNAMED-->
+<!--          </argLine>-->
+<!--        </configuration>-->
         <configuration>
           <argLine>
-            --add-opens java.base/java.lang=ALL-UNNAMED
+            --add-opens java.base/java.lang=ALL-UNNAMED ${argLine}
           </argLine>
+          <!--Quickfix for CodeShip Error: Could not find or load main class org.apache.maven.surefire.booter.ForkedBooter -->
+          <!--Solution from: https://stackoverflow.com/questions/50661648/spring-boot-fails-to-run-maven-surefire-plugin-classnotfoundexception-org-apache-->
+          <!--Explanation for issue: https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class -->
+          <useSystemClassLoader>false</useSystemClassLoader>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*Tests.java</include>
+            <include>**/*IT.java</include>
+          </includes>
         </configuration>
       </plugin>
       <plugin>
