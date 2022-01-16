@@ -174,8 +174,8 @@ public class Denkovi16ChannelRelayStateTests
 
         assertThat(states[0]).isTrue();
         assertThat(states[5]).isTrue();
-        assertThat(states[10]).isFalse();
-        assertThat(states[12]).isFalse();
+        assertThat(states[10]).isTrue();
+        assertThat(states[12]).isTrue();
 
         assertThat(states[1]).isFalse();
         assertThat(states[2]).isFalse();
