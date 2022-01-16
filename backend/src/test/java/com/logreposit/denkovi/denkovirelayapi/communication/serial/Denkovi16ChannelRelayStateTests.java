@@ -188,6 +188,6 @@ public class Denkovi16ChannelRelayStateTests
         assertThat(states[11]).isFalse();
         assertThat(states[13]).isFalse();
         assertThat(states[14]).isFalse();
-        assertThat(states[15]).isFalse();
+        assertThat(states[15]).isTrue(); // TODO DoM: to let the test fail, test CI build
     }
 }
