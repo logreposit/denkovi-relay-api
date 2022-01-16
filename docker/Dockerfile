@@ -1,4 +1,4 @@
-FROM openjdk:12
+FROM eclipse-temurin:17-jre
 
 MAINTAINER Dominic Miglar <dominic.miglar@netunix.at>
 
