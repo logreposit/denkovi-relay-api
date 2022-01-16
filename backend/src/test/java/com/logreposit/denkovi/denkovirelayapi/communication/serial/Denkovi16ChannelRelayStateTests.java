@@ -42,7 +42,7 @@ public class Denkovi16ChannelRelayStateTests
     public void testGet_numberSmallerThanZero()
     {
         assertThatThrownBy(() -> this.state.get(-1))
-                .isExactlyInstanceOf(RuntimeException.class)
+                .isExactlyInstanceOf(IllegalArgumentException.class)
                 .hasMessage("number must be 0-15");
     }
 
@@ -50,7 +50,7 @@ public class Denkovi16ChannelRelayStateTests
     public void testGet_numberBiggerThanFifteen()
     {
         assertThatThrownBy(() -> this.state.get(16))
-                .isExactlyInstanceOf(RuntimeException.class)
+                .isExactlyInstanceOf(IllegalArgumentException.class)
                 .hasMessage("number must be 0-15");
     }
 
@@ -58,7 +58,7 @@ public class Denkovi16ChannelRelayStateTests
     public void testSet_numberSmallerThanZero()
     {
         assertThatThrownBy(() -> this.state.get(-1))
-                .isExactlyInstanceOf(RuntimeException.class)
+                .isExactlyInstanceOf(IllegalArgumentException.class)
                 .hasMessage("number must be 0-15");
     }
 
@@ -66,7 +66,7 @@ public class Denkovi16ChannelRelayStateTests
     public void testSet_numberBiggerThanFifteen()
     {
         assertThatThrownBy(() -> this.state.get(16))
-                .isExactlyInstanceOf(RuntimeException.class)
+                .isExactlyInstanceOf(IllegalArgumentException.class)
                 .hasMessage("number must be 0-15");
     }
 
