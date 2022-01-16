@@ -6,9 +6,7 @@ import com.logreposit.denkovi.denkovirelayapi.rest.dtos.RelayState;
 import com.logreposit.denkovi.denkovirelayapi.rest.mapper.ProcedureMapper;
 import com.logreposit.denkovi.denkovirelayapi.services.DenkoviRelayService;
 import com.logreposit.denkovi.denkovirelayapi.services.procedure.ProcedureService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @WebMvcTest(controllers = {DenkoviRelayController.class})
 public class DenkoviRelayControllerTests
 {
@@ -46,11 +43,6 @@ public class DenkoviRelayControllerTests
 
     @MockBean
     private DenkoviRelayService denkoviRelayService;
-
-    @Before
-    public void setUp()
-    {
-    }
 
     @Test
     public void testGetAll() throws Exception

@@ -13,15 +13,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.dizitart.no2.Nitrite;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProcedureRepositoryImplTests
 {
     private ProcedureRepositoryImpl procedureRepository;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         String databaseFilePath = System.getProperty("java.io.tmpdir") + File.separator + UUID.randomUUID().toString() + ".db";
@@ -40,8 +41,8 @@ public class ProcedureRepositoryImplTests
 
         Procedure inserted = this.procedureRepository.save(procedure);
 
-        Assert.assertNotNull(inserted);
-        Assert.assertEquals(procedure, inserted);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(procedure);
     }
 
     @Test
@@ -51,13 +52,13 @@ public class ProcedureRepositoryImplTests
 
         Procedure inserted = this.procedureRepository.save(procedure);
 
-        Assert.assertNotNull(inserted);
-        Assert.assertEquals(procedure, inserted);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(procedure);
 
         Optional<Procedure> retrievedOptional = this.procedureRepository.get(procedure.getId());
 
-        Assert.assertTrue(retrievedOptional.isPresent());
-        Assert.assertEquals(procedure, retrievedOptional.get());
+        assertThat(retrievedOptional).isPresent();
+        assertThat(retrievedOptional.get()).isEqualTo(procedure);
     }
 
     @Test
@@ -67,8 +68,8 @@ public class ProcedureRepositoryImplTests
 
         Procedure inserted = this.procedureRepository.save(procedure);
 
-        Assert.assertNotNull(inserted);
-        Assert.assertEquals(procedure, inserted);
+        assertThat(inserted).isNotNull();
+        assertThat(inserted).isEqualTo(procedure);
 
         Procedure newProcedure = getSampleProcedure();
 
@@ -79,13 +80,13 @@ public class ProcedureRepositoryImplTests
 
         Procedure updated = this.procedureRepository.save(newProcedure);
 
-        Assert.assertNotNull(updated);
-        Assert.assertEquals(newProcedure, updated);
+        assertThat(updated).isNotNull();
+        assertThat(updated).isEqualTo(newProcedure);
 
         Optional<Procedure> retrievedOptional = this.procedureRepository.get(procedure.getId());
 
-        Assert.assertTrue(retrievedOptional.isPresent());
-        Assert.assertEquals(newProcedure, retrievedOptional.get());
+        assertThat(retrievedOptional).isPresent();
+        assertThat(retrievedOptional.get()).isEqualTo(newProcedure);
     }
 
     private static Procedure getSampleProcedure()
