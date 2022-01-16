@@ -1,8 +1,9 @@
 package com.logreposit.denkovi.denkovirelayapi.communication.serial;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DenkoviSerialClientImplTestsIT
 {
@@ -11,7 +12,7 @@ public class DenkoviSerialClientImplTestsIT
 
     private DenkoviSerialClientImpl client;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         this.client = new DenkoviSerialClientImpl(COMMUNICATION_PORT, READ_TIMEOUT);
@@ -24,7 +25,7 @@ public class DenkoviSerialClientImplTestsIT
     {
         Denkovi16ChannelRelayState state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, state);
     }
@@ -37,7 +38,7 @@ public class DenkoviSerialClientImplTestsIT
 
         Denkovi16ChannelRelayState state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(false, false, false, true, false, false, false, false, false, false, false, false, false, false, true, false, state);
     }
@@ -64,7 +65,7 @@ public class DenkoviSerialClientImplTestsIT
 
         Denkovi16ChannelRelayState state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, state);
     }
@@ -83,7 +84,7 @@ public class DenkoviSerialClientImplTestsIT
 
         Denkovi16ChannelRelayState state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, state);
     }
@@ -126,7 +127,7 @@ public class DenkoviSerialClientImplTestsIT
 
         Denkovi16ChannelRelayState state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, state);
     }
@@ -153,7 +154,7 @@ public class DenkoviSerialClientImplTestsIT
 
         state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, state);
     }
@@ -171,7 +172,7 @@ public class DenkoviSerialClientImplTestsIT
 
         Denkovi16ChannelRelayState state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(false, false, false, false, false, true, false, false, true, true, false, false, false, false, false, false, state);
 
@@ -179,7 +180,7 @@ public class DenkoviSerialClientImplTestsIT
 
         state = this.client.get();
 
-        Assert.assertNotNull(state);
+        assertThat(state).isNotNull();
 
         assertState(false, false, false, false, false, true, false, false, true, false, false, false, false, false, false, false, state);
     }
@@ -206,6 +207,6 @@ public class DenkoviSerialClientImplTestsIT
 
         boolean[] actualStates = actual.getAll();
 
-        Assert.assertArrayEquals(expectedStates, actualStates);
+        assertThat(actualStates).isEqualTo(expectedStates);
     }
 }
