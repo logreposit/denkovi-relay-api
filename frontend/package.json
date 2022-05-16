@@ -11,7 +11,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.21",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
-    "axios": "^0.19.0",
+    "axios": "^0.21.2",
     "core-js": "^2.6.5",
     "sockjs-client": "^1.4.0",
     "stompjs": "^2.3.3",
