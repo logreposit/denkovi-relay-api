@@ -16,7 +16,7 @@
     "sockjs-client": "^1.4.0",
     "stompjs": "^2.3.3",
     "vue": "^2.6.10",
-    "vuetify": "^2.0.0"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",
